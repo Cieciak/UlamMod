@@ -1,4 +1,4 @@
-from math import cos, sin, sqrt, ceil
+from math import cos, floor, sin, sqrt, ceil
 import svg, sys
 
 
@@ -28,11 +28,12 @@ def convert_to_spiral(n: int, *, power: float = 0.5, scale: float = 1) -> tuple[
     return x, y
 
 def is_prime(x):
-    for i in range(2, ceil(sqrt(x))):
-        if (x % i == 0): return False
+    for i in range(2, 1 + ceil(sqrt(x))):
+        if (x % i == 0): return x == 2
+    if x == 0 or x == 1: return False
     return True
 
-def next_point(prev: tuple[float, float], heading: tuple[float, float] = (1, 0)) -> tuple[float, float]:
+def next_point(prev: tuple[float, float], heading: tuple[float, float] = (1, 0)):
     x, y = prev = (prev[0] + heading[0], prev[1] + heading[1])
     if   (x - 1 == -y) and y < 1: heading = (0 ,  1)
     elif (x     == y) and x > 0: heading = (-1,  0)
@@ -41,25 +42,54 @@ def next_point(prev: tuple[float, float], heading: tuple[float, float] = (1, 0))
 
     return prev, heading
 
-output_image = svg.SVG(250, 250)
+def prime_test():
+    count = 0
+    for i in range(100):
+        count += is_prime(i)
+        print(f'{i}, {is_prime(i)}')
+    
+    print(count)
 
-h, w = output_image.heigth, output_image.width
-point = (0, 0)
-heading = (1, 0)
+def csv_output(func, points: int, path: str):
 
-for n in range(0, points):
-    x, y  = point
+    CSV: str = ''
 
-    mapped = compiled(n)
-    prime = is_prime(mapped)
+    point   = (0, 0)
+    heading = (1, 0)
 
-    #dot = svg.SVG_Circle(x + 500, y + 500, .5, fill = 'black' if prime else 'white')
-    dot = svg.SVG_Rect(x - .5 + 0.5 * w, y - .5 + 0.5 * h, 1, 1, fill = 'black' if prime else 'white')
+    for n in range(points):
+        x, y = point
+        mapped = func(n)
+        prime  = is_prime(mapped)
+        CSV += f'{x},{y},{1 * prime}\n'
+        point, heading = next_point(point, heading)
 
-    output_image.append(dot) 
+    with open(path, 'w') as output_file: output_file.write(CSV)
 
-    point, heading = next_point(point, heading)
+def main():
+    output_image = svg.SVG(250, 250)
 
-    if not (n % 10): print(f'{round(n/points * 100, 2)}%')
+    h, w = output_image.heigth, output_image.width
+    point = (0, 0)
+    heading = (1, 0)
 
-output_image.save(file_name)
+    for n in range(0, points):
+        x, y  = point
+
+        mapped = compiled(n)
+        prime = is_prime(mapped)
+
+        #dot = svg.SVG_Circle(x + 500, y + 500, .5, fill = 'black' if prime else 'white')
+        dot = svg.SVG_Rect(x - .5 + 0.5 * w, y - .5 + 0.5 * h, 1, 1, fill = 'black' if prime else 'white')
+
+        output_image.append(dot) 
+
+        point, heading = next_point(point, heading)
+
+        if not (n % 10): print(f'{round(n/points * 100, 2)}%')
+
+    output_image.save(file_name)
+
+if __name__ == '__main__':
+    #prime_test()
+    csv_output(lambda x: x, 200_000, 'out.csv')
