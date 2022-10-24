@@ -2,3 +2,7 @@ body {
     background-color: black;
     text-align: center;
 }
+
+h1, p {
+    color: white;
+}
