@@ -15,6 +15,7 @@ except ValueError:points = 100_000
 
 # Ask user for the function
 if not user_function: user_function = input("Enter f(n): ℕ → X, n ∈ ℕ: ")
+print(user_function)
 compiled = lambda n: eval(compile(user_function, './err', 'eval'))
 
 # Determine the output filename
