@@ -4,19 +4,20 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+    <title>Ulam View</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="./js/script.js"></script>
 </head>
 <body>
     <h1>Ulam Spiral</h1>
-    <div>
-        <button id="prev" onclick="prev()">Prev</button>
-        <button id="next">Next</button>
-    </div>
-    <img src="./svg/n.svg"/>
+    <h2>of</h2>
     <p id="output"></p>
 
+    <img id="image" src="./svg/n.svg"/>
+    <div>
+        <button class="indexing" onclick="prev()">Prev</button>
+        <button class="indexing" onclick="next()">Next</button>
+    </div>
     <script>init()</script>
 </body>
 </html>

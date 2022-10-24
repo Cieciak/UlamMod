@@ -1,0 +1,15 @@
+body {
+    background-color: black;
+    text-align: center;
+}
+
+h1, h2, p {
+    color: white;
+}
+
+.indexing {
+    background-color: grey;
+    border: none;
+    border-radius: 5px;
+    
+}
