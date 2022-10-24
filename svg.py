@@ -11,7 +11,22 @@ class SVG_Circle(SVG_Element):
     def __init__(self, cx: float, cy: float, r: float, *, fill: str = 'black', depth: float = 0) -> None:
         args = locals()
         args.pop('self')
-        super().__init__(**args)
+        super().__init__(depth=depth)
+        self.passed = locals()
+
+    def __str__(self) -> str:
+        output = self.PATTERN
+        for key in self.ARGS:
+            output = output.replace(f'_{key}_', f'{self.passed[key]}')
+        return output
+
+class SVG_Rect(SVG_Element):
+
+    ARGS = ['x', 'y', 'width', 'height', 'fill']
+    PATTERN = r'<rect x="_x_" y="_y_" width="_width_" height="_height_" fill="_fill_"/>'
+
+    def __init__(self, x: float, y: float, width: float, height: float, *, fill: str = 'black', depth: float = 0) -> None:
+        super().__init__(depth=depth)
         self.passed = locals()
 
     def __str__(self) -> str:

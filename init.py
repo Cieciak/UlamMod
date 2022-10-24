@@ -1,8 +1,6 @@
 from math import cos, sin, sqrt, ceil
 import svg, sys
 
-# Amount of points to draw
-POINTS = 100_000
 
 # Try to get function from command
 try: user_function = sys.argv[1]
@@ -33,17 +31,34 @@ def is_prime(x):
         if (x % i == 0): return False
     return True
 
-output_image = svg.SVG(1000, 1000)
+def next_point(prev: tuple[float, float], heading: tuple[float, float] = (1, 0)) -> tuple[float, float]:
+    x, y = prev = (prev[0] + heading[0], prev[1] + heading[1])
+    if   (x - 1 == -y) and y < 1: heading = (0 ,  1)
+    elif (x     == y) and x > 0: heading = (-1,  0)
+    elif (-x    == y) and y > 0: heading = (0 , -1)
+    elif (x     == y) and x < 0: heading = (1 ,  0)
 
-for n in range(0, POINTS):
-    x, y  = convert_to_spiral(n)
+    return prev, heading
+
+output_image = svg.SVG(250, 250)
+
+h, w = output_image.heigth, output_image.width
+point = (0, 0)
+heading = (1, 0)
+
+for n in range(0, points):
+    x, y  = point
 
     mapped = compiled(n)
     prime = is_prime(mapped)
 
-    point = svg.SVG_Circle(x + 500, y + 500, 1, fill = 'black' if prime else 'white')
+    #dot = svg.SVG_Circle(x + 500, y + 500, .5, fill = 'black' if prime else 'white')
+    dot = svg.SVG_Rect(x - .5 + 0.5 * w, y - .5 + 0.5 * h, 1, 1, fill = 'black' if prime else 'white')
 
-    output_image.append(point) 
-    if not (n % 10): print(f'{n/POINTS * 100}%')
+    output_image.append(dot) 
+
+    point, heading = next_point(point, heading)
+
+    if not (n % 10): print(f'{round(n/points * 100, 2)}%')
 
 output_image.save(file_name)
