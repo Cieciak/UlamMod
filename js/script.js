@@ -1,38 +1,41 @@
-var current = 0
-var files = []
+var current = 'n'
+var ctx = null
 
-async function get_directory(dir_name){
-    const url = `https://api.github.com/repos/Cieciak/UlamMod/git/trees/main`
+const API_PATH = `http://localhost:5000/compute/`
+
+async function get_primes(func){
+    const url = API_PATH + func
     const response = await fetch(url).then(response => response.json())
-    const directory = response.tree.find(node => node.path  === dir_name)
-    if (directory) {
-        const response = await fetch(directory.url).then(resonse => resonse.json())
-        const files = response.tree.map(node => node.path)
-        return files
+    return response
+}
+
+async function send_func(){
+    current = document.getElementById('user_func_input').value
+    document.getElementById("output").innerHTML = current
+    await draw_on_canvas(current, ctx)
+}
+
+function put_pixel(x, y, ctx){
+    ctx.fillRect(x, y, 1, 1)
+}
+
+async function draw_on_canvas(func, ctx){
+    const primes = await get_primes(func)
+    ctx.fillStyle = '#FFFFFF'
+    ctx.fillRect(0, 0, 300, 300)
+    ctx.fillStyle = '#BD0000'
+    for (const key in primes){
+        var row = key.split(';')
+        var x = parseInt(row[0])
+        var y = parseInt(row[1])
+        put_pixel(x + 150, y + 150, ctx)
     }
 }
 
-function split_name(text){return text.split('.')[0]}
-
-function prev(){
-    // current = (current - 1) % files.length // Funni thing happen
-    current = Math.max(0, current - 1)
-    document.getElementById("output").innerHTML = split_name(files[current])
-    load_svg(files[current])
-}
-
-function next(){
-    current = Math.min(files.length - 1, current + 1)
-    document.getElementById("output").innerHTML = split_name(files[current])
-    load_svg(files[current])
-}
-
-function load_svg(path){
-    document.getElementById("image").src = `./svg/${path}`
-}
-
 async function init(){
-    files = await get_directory('svg')
-    document.getElementById("output").innerHTML = split_name(files[current])
-    load_svg(files[current])
+    var canvas = document.getElementById("display")
+    ctx = canvas.getContext("2d")
+    ctx.fillStyle = '#BD0000'
+    document.getElementById("output").innerHTML = current
+    draw_on_canvas(current, ctx)
 }

@@ -3,13 +3,21 @@ body {
     text-align: center;
 }
 
-h1, h2, p {
-    color: white;
+canvas {
+    background-color: white;
+}
+button {
+    margin-left: 0px;
+    border: none;
+    border-radius: 2px;
+    background-color: gray;
 }
 
-.indexing {
-    background-color: grey;
+input {
+    margin-right: 0px;
     border: none;
-    border-radius: 5px;
-    
+}
+
+h1, h2, p {
+    color: white;
 }

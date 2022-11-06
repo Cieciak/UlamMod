@@ -12,12 +12,14 @@
     <h1>Ulam Spiral</h1>
     <h2>of</h2>
     <p id="output"></p>
-
-    <img id="image" src="./svg/n.svg"/>
+    <canvas id="display" width="300" height="300"></canvas>
+    
     <div>
-        <button class="indexing" onclick="prev()">Prev</button>
-        <button class="indexing" onclick="next()">Next</button>
+        <input id="user_func_input" type="text">
+        <button id="submit" onclick="send_func()">Send!</button>
     </div>
+    
+
     <script>init()</script>
 </body>
 </html>

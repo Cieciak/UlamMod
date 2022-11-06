@@ -16,6 +16,9 @@ def make_app():
         user_function = compiler.compile_input(function)
         ulam = generator.get_spiral(user_function)
 
-        return jsonify(ulam)
+        response = jsonify(ulam)
+        response.headers.add('Access-Control-Allow-Origin', '*')
+
+        return response
 
     return app
