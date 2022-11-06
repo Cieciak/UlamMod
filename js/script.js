@@ -1,7 +1,7 @@
 var current = 'n'
 var ctx = null
 
-const API_PATH = `http://localhost:5000/compute/`
+const API_PATH = `http://129.151.213.44:8080/compute/`
 
 async function get_primes(func){
     const url = API_PATH + func
