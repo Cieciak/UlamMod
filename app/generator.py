@@ -1,11 +1,19 @@
 from math import ceil, sqrt
-
+from ctypes import CDLL
 
 def is_prime(x):
     for i in range(2, 1 + ceil(sqrt(x))):
         if (x % i == 0): return x == 2
     if x == 0 or x == 1: return False
     return True
+
+
+class Generator:
+
+    def __init__(self) -> None:
+        self.func = 
+
+
 
 def next_point(prev: tuple[float, float], heading: tuple[float, float] = (1, 0)):
     x, y = prev = (prev[0] + heading[0], prev[1] + heading[1])
