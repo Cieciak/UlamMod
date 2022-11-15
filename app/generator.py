@@ -1,43 +1,53 @@
 from math import ceil, sqrt
-from ctypes import CDLL
+from types import FunctionType
 
-def is_prime(x):
-    for i in range(2, 1 + ceil(sqrt(x))):
-        if (x % i == 0): return x == 2
-    if x == 0 or x == 1: return False
-    return True
-
+csqrt = lambda n: ceil(sqrt(n))
 
 class Generator:
 
+    @staticmethod
+    def is_prime(n: int) -> bool:
+        if n < 2: return False 
+        for i in range(2, 1 + csqrt(n)): 
+            if (n % i == 0): return n == 2
+        return True 
+
+    @staticmethod
+    def next_point(prev: tuple[float, float], heading: tuple[float, float]):
+        x, y = prev = (prev[0] + heading[0], prev[1] + heading[1])
+        if   (x - 1 == -y) and y < 1: heading = ( 0,  1)
+        elif (x     ==  y) and x > 0: heading = (-1,  0)
+        elif (-x    ==  y) and y > 0: heading = ( 0, -1)
+        elif (x     ==  y) and x < 0: heading = ( 1,  0)
+
+        return prev, heading
+
     def __init__(self) -> None:
-        self.func = 
+        self.func: FunctionType = Generator.is_prime
 
+    def bind_function(self, func: FunctionType): self.func = func
 
+    def get_spiral(self, func: FunctionType, start: int = 0, stop: int = 100_000):
+        output_datapoints = {}
 
-def next_point(prev: tuple[float, float], heading: tuple[float, float] = (1, 0)):
-    x, y = prev = (prev[0] + heading[0], prev[1] + heading[1])
-    if   (x - 1 == -y) and y < 1: heading = (0 ,  1)
-    elif (x     == y) and x > 0: heading = (-1,  0)
-    elif (-x    == y) and y > 0: heading = (0 , -1)
-    elif (x     == y) and x < 0: heading = (1 ,  0)
+        point = (0, 0)
+        heading = (1, 0)
 
-    return prev, heading
+        for n in range(start, stop):
+            mapped = func(n)
+            prime = self.func(mapped)
+            if prime: 
+                entry = f'{point[0]};{point[1]}'
+                output_datapoints[entry] = prime
 
-def get_spiral(func, start: int = 0, stop: int = 100_000):
+            point, heading = Generator.next_point(point, heading)
 
-    output_datapoints = {}
+        return output_datapoints
 
-    point = (0, 0)
-    heading = (1, 0)
+    def test(self, *, n = 100):
+        '''Will test the function for first n numbers'''
+        for x in range(n):
+            print(f'{x}: {self.func(x)}')
 
-    for n in range(start, stop):
-        mappped = func(n)
-        prime = is_prime(mappped)
-        if prime:
-            entry = f'{point[0]};{point[1]}'
-            output_datapoints[entry] = prime
-
-        point, heading = next_point(point, heading)
-
-    return output_datapoints
+if __name__ == '__main__':
+    pass
