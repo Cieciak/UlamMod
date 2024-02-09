@@ -1,0 +1,47 @@
+* {
+    margin: 0;
+    background-color: #040F3C;
+}
+
+body {
+    text-align: center;
+}
+
+p {
+    font-family: 'IBM Plex Mono', monospace;
+    color: #01B472;
+    font-size: 5vh;
+}
+
+canvas {
+    background-color: #010513;
+}
+
+#title {
+    font-size: 10vh;
+}
+
+button {
+    margin-top: 1px;
+    border: none;
+    background-color: #092286;
+    color: #01B472;
+    font-size: 3vh;
+    border-radius: 10%;
+}
+
+button:active {
+    background-color: #0B37D5;
+}
+
+input {
+    border: 2px solid #0B37D5;
+    height: 3vh;
+    color: #01B472;
+    font-size: 2vh;
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+input:active {
+    background-color: #0B37D5;
+}

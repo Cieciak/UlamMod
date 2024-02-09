@@ -5,21 +5,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ulam View</title>
-    <link rel="stylesheet" href="./css/style.css">
-    <script src="./js/script.js"></script>
+    <link rel="stylesheet" href="./style.css">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+    <script src="./script.js"></script>
 </head>
 <body>
-    <h1>Ulam Spiral</h1>
-    <h2>of</h2>
-    <p id="output"></p>
-    <canvas id="display" width="300" height="300"></canvas>
+
+    <p id="title">Ulam Spiral</p>
+    <p>of</p>
+    <p id="function">f(n) = n</p>
+
+    <canvas id="canvas" width="300" height="300"></canvas>
     
-    <div>
-        <input id="user_func_input" type="text">
-        <button id="submit" onclick="send_func()">Send!</button>
+    <div id="a">
+        <div>
+            <input id="expression" type="text">
+        </div>
+        <div>
+            <button id="submit" onclick="calculate()">Send!</button>
+        </div>
     </div>
-    
 
     <script>init()</script>
+
 </body>
 </html>
